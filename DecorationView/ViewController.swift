@@ -32,11 +32,9 @@ class ECCollectionViewLayout: UICollectionViewFlowLayout {
         
         var allAttributes = attributes
         
-        for attribute in attributes {
-            
-            // Look for the first item in a row
-            if attribute.representedElementCategory == .cell,
-                attribute.frame.origin.x == self.sectionInset.left {
+        // Look for the first item in each row
+        for attribute in attributes
+            where attribute.representedElementCategory == .cell && attribute.frame.origin.x == self.sectionInset.left {
                 
                 // Create decoration attributes
                 let decorationAttributes =
@@ -44,7 +42,7 @@ class ECCollectionViewLayout: UICollectionViewFlowLayout {
                                                      with: attribute.indexPath)
                 
                 // Because the convenience init above can't be overridden, we set up the colour here instead
-                if attribute.indexPath.section % 2 == 0 {
+                if attribute.indexPath.section.isMultiple(of: 2) {
                     decorationAttributes.colour = .red
                 } else {
                     decorationAttributes.colour = .blue
@@ -62,7 +60,6 @@ class ECCollectionViewLayout: UICollectionViewFlowLayout {
                 
                 // Add the attribute to the list
                 allAttributes.append(decorationAttributes)
-            }
         }
         
         return allAttributes
@@ -92,8 +89,8 @@ class ECCollectionViewLayoutAttributes: UICollectionViewLayoutAttributes {
 class ECCollectionReusableView : UICollectionReusableView {
     override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
         super.apply(layoutAttributes)
-        let ecLayoutAttributes = layoutAttributes as? ECCollectionViewLayoutAttributes
-        self.backgroundColor = ecLayoutAttributes?.colour
+        let layoutAttributes = layoutAttributes as? ECCollectionViewLayoutAttributes
+        self.backgroundColor = layoutAttributes?.colour
     }
 }
 
