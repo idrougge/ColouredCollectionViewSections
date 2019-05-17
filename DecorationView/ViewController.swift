@@ -50,12 +50,12 @@ class ECCollectionViewLayout: UICollectionViewFlowLayout {
                     decorationAttributes.colour = .blue
                 }
                 
-                // Make the decoration view span the entire row (you can do item by item as well.  I just
-                // chose to do it this way)
-                decorationAttributes.frame =
-                    CGRect(x: 0, y: attribute.frame.origin.y - self.sectionInset.top,
-                           width: self.collectionViewContentSize.width,
-                           height: self.itemSize.height + self.minimumLineSpacing + self.sectionInset.top + self.sectionInset.bottom)
+                // Make the decoration view span the entire row (you can do item by item as well.
+                // I just chose to do it this way)
+                let y = attribute.frame.origin.y - sectionInset.top
+                let width = collectionViewContentSize.width
+                let height = itemSize.height + minimumLineSpacing + sectionInset.top + sectionInset.bottom
+                decorationAttributes.frame = CGRect(x: 0, y: y, width: width, height: height)
 
                 // Set the zIndex to be behind the item
                 decorationAttributes.zIndex = attribute.zIndex - 1
@@ -72,12 +72,13 @@ class ECCollectionViewLayout: UICollectionViewFlowLayout {
 class ECCollectionViewLayoutAttributes: UICollectionViewLayoutAttributes {
     var colour: UIColor?
     
+    // All UICollectionViewLayoutAttributes subclasses "must" override this
     override func copy(with zone: NSZone? = nil) -> Any {
         let copy = super.copy(with: zone) as! ECCollectionViewLayoutAttributes
         copy.colour = self.colour
         return copy
     }
-    
+    // All subclasses "must" override this
     override func isEqual(_ object: Any?) -> Bool {
         guard
             let object = object as? ECCollectionViewLayoutAttributes,
@@ -105,7 +106,7 @@ class ViewController: UICollectionViewController {
         self.collectionView.collectionViewLayout = ECCollectionViewLayout()
     }
     
-    // MARK: - Collection View method subclasses
+    // MARK: - UICollectionViewDataSource
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 4
