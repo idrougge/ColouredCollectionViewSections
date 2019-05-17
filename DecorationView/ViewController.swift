@@ -2,8 +2,8 @@
 //  ViewController.swift
 //  DecorationView
 //
-//  Created by Iggy Drougge on 2019-05-17.
-//  Copyright © 2019 Charkspecialisten. All rights reserved.
+//  Created by Iggy Drougge on 2019-05-17 🇳🇴
+//  Translated from "ECDecorationView" by Eric Chapman
 //
 
 import UIKit
